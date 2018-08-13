@@ -135,6 +135,22 @@ void read_input(InputBuffer* input_buffer) {
     input_buffer->buffer[bytes_read -1] = 0;
 }
 
+void serialize_row(Row* source, void* destination) {
+    mem_cpy(destination + ID_OFFSET, &(source->id), ID_SIZE);
+    mem_cpy(destination + USERNAME_OFFSET, &(source->username), USERNAME_SIZE);
+    mem_cpy(destination + EMAIL_OFFSET, &(source->email), EMAIL_SIZE);
+}
+
+void deserialize_row(void* source, Row* destination) {
+    mem_cpy(&(destination->id), source + ID_OFFSET, ID_SIZE);
+    mem_cpy(&(destination->username), source + USERNAME_OFFSET, USERNAME_SIZE);
+    mem_cpy(&(destination->email), source + EMAIL_OFFSET, EMAIL_SIZE);
+}
+
+void print_row(Row* row) {
+    printf("(%d, %s, %s)\n", row->id, row->username, row->email);
+}
+
 int main(int argc, char* argv[])
 {
     InputBuffer* input_buffer = new_input_buffer();
